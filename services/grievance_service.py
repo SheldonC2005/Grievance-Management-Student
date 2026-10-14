@@ -16,10 +16,8 @@ class GrievanceService:
             raise ValueError("Choose a category and enter a title between 3 and 160 characters.")
         if not validate_text(description, 20, 10000):
             raise ValueError("Description must be between 20 and 10,000 characters.")
-        if len(files) > MAX_ATTACHMENTS:
-            raise ValueError("A grievance can have at most 5 attachments.")
+        if files:
+            raise ValueError("Attachment uploads are disabled in this demonstration.")
         grievance = self.repository.create({"student_auth_user_id": user_id, "category_id": category_id, "title": title.strip(), "description": description.strip(), "is_anonymous": anonymous, "status": "submitted"})
         self.repository.add_initial_history(grievance["id"], user_id)
-        if files:
-            self.attachments.upload_all(grievance["id"], user_id, files)
         return grievance

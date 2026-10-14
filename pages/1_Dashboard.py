@@ -1,9 +1,11 @@
 import streamlit as st
 
 from components.ui import format_date, page_header, status_badge
-from pages.common import current_user_id, grievance_repository, notification_repository
+from student_common import auto_refresh, grievance_repository, notification_repository, require_authenticated_page
 
 st.set_page_config(page_title="Dashboard | VIT Grievances", layout="wide")
+require_authenticated_page()
+auto_refresh(20)
 page_header("Student workspace", "Your grievance overview", "A clear view of open concerns, progress, and recent updates.")
 repo = grievance_repository()
 try:

@@ -1,9 +1,11 @@
 import streamlit as st
 
 from components.ui import format_date, page_header, status_badge
-from pages.common import grievance_repository
+from student_common import auto_refresh, grievance_repository, require_authenticated_page
 
 st.set_page_config(page_title="Grievance Details | VIT", layout="wide")
+require_authenticated_page()
+auto_refresh(20)
 grievance_id = st.session_state.get("selected_grievance")
 if not grievance_id: st.warning("Select a grievance from My Grievances."); st.stop()
 repo = grievance_repository()

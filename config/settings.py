@@ -15,11 +15,20 @@ class Settings:
     storage_bucket: str = "grievance-attachments"
 
 
+def _streamlit_secret(name: str) -> str:
+    try:
+        import streamlit as st
+
+        return str(st.secrets.get(name, "")).strip()
+    except Exception:
+        return ""
+
+
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
-    url = os.getenv("SUPABASE_URL", "").strip()
-    key = os.getenv("SUPABASE_KEY", "").strip()
+    url = os.getenv("SUPABASE_URL", "").strip() or _streamlit_secret("SUPABASE_URL")
+    key = os.getenv("SUPABASE_KEY", "").strip() or _streamlit_secret("SUPABASE_KEY")
     if not url or not key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_KEY must be configured.")
-    app_url = os.getenv("APP_URL", "http://localhost:8501").strip().rstrip("/")
+    app_url = (os.getenv("APP_URL", "").strip() or _streamlit_secret("APP_URL") or "http://localhost:8501").rstrip("/")
     return Settings(url, key, app_url)

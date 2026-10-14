@@ -1,10 +1,12 @@
 import streamlit as st
 
 from components.ui import page_header
-from pages.common import client
+from student_common import auto_refresh, client, require_authenticated_page
 from repositories.student_repository import StudentRepository
 
 st.set_page_config(page_title="Profile | VIT", layout="wide")
+require_authenticated_page()
+auto_refresh(20)
 page_header("Account", "Your profile", "Keep your contact and academic information current.")
 user = st.session_state["user"]
 student = StudentRepository(client()).get_by_auth_user(user.id)

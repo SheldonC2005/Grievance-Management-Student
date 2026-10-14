@@ -1,9 +1,11 @@
 import streamlit as st
 
 from components.ui import format_date, page_header
-from pages.common import notification_repository
+from student_common import auto_refresh, notification_repository, require_authenticated_page
 
 st.set_page_config(page_title="Notifications | VIT", layout="wide")
+require_authenticated_page()
+auto_refresh(20)
 page_header("Updates", "Notifications", "Stay informed about responses and status changes.")
 repo = notification_repository()
 try: notifications = repo.list()

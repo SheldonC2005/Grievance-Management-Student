@@ -1,9 +1,11 @@
 import streamlit as st
 
 from components.ui import format_date, page_header, status_badge
-from pages.common import grievance_repository
+from student_common import auto_refresh, grievance_repository, require_authenticated_page
 
 st.set_page_config(page_title="My Grievances | VIT", layout="wide")
+require_authenticated_page()
+auto_refresh(20)
 page_header("Tracking", "My grievances", "Only grievances belonging to your authenticated student account are returned by the database.")
 repo = grievance_repository()
 try: categories = repo.categories()

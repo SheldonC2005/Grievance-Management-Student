@@ -103,8 +103,10 @@ def clear_demo_session(session: dict[str, Any] | None = None) -> dict[str, Any]:
     return session
 
 
-def require_demo_session(session: dict[str, Any]) -> dict[str, Any]:
-    if not isinstance(session, dict):
+from collections.abc import Mapping
+
+def require_demo_session(session: Any) -> Any:
+    if not isinstance(session, Mapping):
         raise RuntimeError("No authenticated student session is available.")
     if "student" not in session or "user" not in session:
         raise RuntimeError("No authenticated student session is available.")

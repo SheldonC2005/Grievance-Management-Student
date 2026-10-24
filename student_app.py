@@ -43,8 +43,10 @@ def login_form() -> None:
             st.rerun()
         except ValueError as error:
             st.error(str(error))
-        except Exception:
-            st.error("Supabase could not complete the demo sign-in. Confirm the project URL, key, Auth user, and linked student record.")
+        except Exception as error:
+            import traceback
+            traceback.print_exc()
+            st.error(f"Sign-in failed: {error}")
 
 
 def main() -> None:
@@ -79,13 +81,13 @@ def main() -> None:
             st.rerun()
 
     st.sidebar.page_link("pages/1_Dashboard.py", label="Dashboard", icon="🏠")
-    st.sidebar.page_link("pages/2_Submit_Grievance.py", label="Submit grievance", icon="＋")
-    st.sidebar.page_link("pages/3_My_Grievances.py", label="My grievances", icon="▣")
+    st.sidebar.page_link("pages/2_Submit_Grievance.py", label="Submit grievance", icon="➕")
+    st.sidebar.page_link("pages/3_My_Grievances.py", label="My grievances", icon="📋")
     st.sidebar.page_link("pages/4_Notifications.py", label="Notifications", icon="🔔")
-    st.sidebar.page_link("pages/5_Profile.py", label="Profile", icon="◉")
+    st.sidebar.page_link("pages/5_Profile.py", label="Profile", icon="👤")
 
     st.title("Welcome back")
-    st.write(f"Signed in as {user.name} ({student['student_id']}).")
+    st.write(f"Signed in as {student['name']} ({student['student_id']}).")
     st.caption("Grievance data refreshes automatically every 20 seconds.")
 
 

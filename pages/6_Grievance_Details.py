@@ -38,6 +38,6 @@ st.subheader("Attachments")
 if not attachments: st.caption("No attachments.")
 for item in attachments:
     try:
-        url = __import__("services.attachment_service", fromlist=["AttachmentService"]).AttachmentService(__import__("pages.common", fromlist=["client"]).client(), "grievance-attachments").signed_url(item["storage_path"])
+        url = __import__("services.attachment_service", fromlist=["AttachmentService"]).AttachmentService(__import__("student_common", fromlist=["client"]).client(), "grievance-attachments").signed_url(item["storage_path"])
         st.link_button(item["file_name"], url)
     except Exception: st.caption(item["file_name"])
